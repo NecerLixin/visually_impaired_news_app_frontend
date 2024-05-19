@@ -32,6 +32,24 @@
           }
         ]
       }
+    ],
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.CAMERA"//允许应用使用相机拍摄照片和录制视频
+      },
+      {
+        "name": "ohos.permission.MICROPHONE"//允许应用使用麦克风
+      },
+      {
+        "name": "ohos.permission.MEDIA_LOCATION"//允许应用访问用户媒体文件中的地理位置信息
+      },
+      {
+        "name": "ohos.permission.WRITE_MEDIA"//允许应用读写用户外部存储中的媒体文件信息
+      },
+      {
+        "name": "ohos.permission.READ_MEDIA"//允许应用读取用户外部存储中的媒体文件信息
+      }
     ]
+
   }
 }
