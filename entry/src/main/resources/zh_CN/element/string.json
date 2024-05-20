@@ -11,6 +11,22 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "return",
+      "value": "返回"
+    },
+    {
+      "name": "pictures",
+      "value": "照片"
+    },
+    {
+      "name": "shot",
+      "value": "拍摄"
+    },
+    {
+      "name": "text_ocr",
+      "value": "文字识别"
     }
   ]
 }
