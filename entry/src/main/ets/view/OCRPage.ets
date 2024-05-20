@@ -1,4 +1,4 @@
-@Entry
+// @Entry
 @Component
 export struct OCRPage{
   build() {
@@ -31,7 +31,7 @@ export struct OCRPage{
         //照片按钮
         Button(){
           Column(){
-            Image($r("app.media.picture_filling"))
+            Image($r("app.media.pictures_ocr"))
               .width(30)
               // .height(10)
             Text($r('app.string.pictures'))
@@ -48,7 +48,7 @@ export struct OCRPage{
         //拍摄按钮
         Button(){
           Column(){
-            Image($r("app.media.shot"))
+            Image($r("app.media.shot_ocr"))
               .width(50)
             Text($r('app.string.shot'))
               .fontColor(Color.White)
