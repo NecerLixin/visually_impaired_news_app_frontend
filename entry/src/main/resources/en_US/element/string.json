@@ -11,6 +11,22 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "return",
+      "value": "return"
+    },
+    {
+      "name": "pictures",
+      "value": "pictures"
+    },
+    {
+      "name": "shot",
+      "value": "shot"
+    },
+    {
+      "name": "text_ocr",
+      "value": "text_ocr"
     }
   ]
 }
