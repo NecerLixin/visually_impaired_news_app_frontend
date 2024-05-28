@@ -1,4 +1,4 @@
-import {OCRPage} from '../view/OCRPage'
+import {OCRPage} from './OCRPage'
 @Entry
 @Component
 struct Index {

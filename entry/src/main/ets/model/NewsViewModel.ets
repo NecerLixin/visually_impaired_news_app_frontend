@@ -1,5 +1,34 @@
 import http from '@ohos.net.http';
 import socket from '@ohos.net.socket';
+export  class Item{
+  name:string
+  image:ResourceStr
+  info:string
+  constructor(name:string,image:ResourceStr,info:string) {
+    this.name=name
+    this.image=image
+    this.info=info
+  }
+}
+export class NewsPic{
+  image:ResourceStr
+  info:string
+  constructor(image:ResourceStr,info:string) {
+    this.image=image
+    this.info=info
+  }
+}
+export class NewsTittle{
+  tittle:string
+  author:string
+  date:string
+
+  constructor(tittle:string,author:string,date:string) {
+    this.tittle=tittle
+    this.author=author
+    this.date=date
+  }
+}
 class GetApi{
   BaseNewsURL='http://127.0.0.1:5000/index'
   getNews(){
