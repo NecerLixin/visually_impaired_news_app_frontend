@@ -1,6 +1,6 @@
 import wordModel from '../model/HistoryModel'
 import ArrayList from '@ohos.util.ArrayList';
-import { HistoryViewModel,ContentItem } from '../view/historyModel'
+import { HistoryViewModel } from '../view/HistoryViewModel'
 import {getItem}  from '../common/history_com'
 //生成每一条历史记录的卡片
 @Builder function HistoryCard(item:HistoryViewModel){
@@ -13,14 +13,17 @@ import {getItem}  from '../common/history_com'
           .fontWeight(FontWeight.Bold)
       }.margin(5)
       Row(){
-        Image(item.item_img_url)
+        Image(item.img_url)
           .width(100)
         Column(){
-          Text(item.brief.substring(0,60))
+          Text(item.news_brief.substring(0,60))
             .fontSize(10)
             .fontColor('#888')
             .decoration({type:TextDecorationType.LineThrough})
             .textAlign(TextAlign.Start)
+          Text(item.history_time)
+            .fontSize(10)
+            .fontColor('#888')
         }.justifyContent(FlexAlign.Start)
         .width('70%')
         .height("100%")

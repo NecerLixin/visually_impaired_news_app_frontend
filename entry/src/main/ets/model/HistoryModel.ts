@@ -1,11 +1,10 @@
 
-import { HistoryViewModel } from '../view/historyModel';
-import { ContentItem } from '../view/historyModel'
+import { HistoryViewModel } from '../view/HistoryViewModel';
 import http from '@ohos.net.http'
 import defaultAppManager from '@ohos.bundle.defaultAppManager';
 import ArrayList from '@ohos.util.ArrayList';
 class HistoryModel{
-  wordUrl:string = 'http://127.0.0.1:5000/index'
+  wordUrl:string = 'http://127.0.0.1:5000/users/gethistory?userid=2'
   getWord():Promise<HistoryViewModel[]>{
     //1. 创建http对象
     let  httpRequest = http.createHttp()
@@ -28,7 +27,7 @@ class HistoryModel{
             resolve(JSON.parse(response.result.toString()))
           }
           else{
-            console.log('请求失败', JSON.stringify(response))
+            console.log('请求失败', JSON.stringify(response.result))
             reject(JSON.stringify(response))
           }
         })
