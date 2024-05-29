@@ -3,8 +3,8 @@ import { HistoryViewModel } from '../view/HistoryViewModel';
 import http from '@ohos.net.http'
 import defaultAppManager from '@ohos.bundle.defaultAppManager';
 import ArrayList from '@ohos.util.ArrayList';
-class HistoryModel{
-  wordUrl:string = 'http://127.0.0.1:5000/users/gethistory?userid=2'
+class HistoryModel{//创建连接
+  wordUrl:string = 'http://127.0.0.1:5000/users/gethistory?userid=2'//后端传上来的网址
   getWord():Promise<HistoryViewModel[]>{
     //1. 创建http对象
     let  httpRequest = http.createHttp()
