@@ -48,6 +48,9 @@
       },
       {
         "name": "ohos.permission.READ_MEDIA"//允许应用读取用户外部存储中的媒体文件信息
+      },
+      {
+        "name": "ohos.permission.INTERNET"//允许应用访问互联网
       }
     ]
 

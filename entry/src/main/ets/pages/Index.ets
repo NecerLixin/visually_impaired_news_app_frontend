@@ -1,3 +1,5 @@
+import router from '@ohos.router'
+import {OCRPage} from './OCRPage'
 @Entry
 @Component
 struct Index {
@@ -10,6 +12,9 @@ struct Index {
         Text(this.message)
           .fontSize(50)
           .fontWeight(FontWeight.Bold)
+          .onClick(()=>{
+            router.pushUrl({url:'pages/NewsViewPage'})
+          })
       }
       .width('100%')
     }
