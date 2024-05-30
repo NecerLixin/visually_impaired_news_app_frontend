@@ -1,9 +1,13 @@
-
+import {LoginViewModel} from '../view/LoginViewModel'
 import router from '@ohos.router'
+import promptAction from '@ohos.promptAction'
 @Entry
 @Component
 struct LoginPage {
-  @State message: string = 'Hello World'
+  @State account:string = ''
+  @State password:string =''
+  @State Islogin:boolean = false
+  @State message:LoginViewModel = new LoginViewModel(this.account,this.password)
 
   build() {
     Column() {
@@ -26,20 +30,28 @@ struct LoginPage {
           top:'30vp'
         })
         .width('95%')
-        .type(InputType.Number)
+        .type(InputType.Normal)
+        .onChange(value=>{
+          this.account = value
+          this.message.Setaccount(this.account)
+        })
       TextInput({placeholder:'密码'})
         .margin({
           top:'10vp'
         })
         .width('95%')
         .type(InputType.Password)
+        .onChange(value=>{
+          this.password = value
+          this.message.Setpassword(this.password)
+
+        })
       Row() {
         Blank()
         Text("忘记密码？")
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.Blue)
-
       }.width("100%")
       .margin({
         top:"10vp"
@@ -49,6 +61,36 @@ struct LoginPage {
         .height(50)
         .margin({
           top:"50 vp"
+        })
+        .onClick(()=>{
+          this.message.Connet().then((res)=>{
+            this.Islogin = res
+            console.log('Islogin:',this.Islogin)
+            if(this.Islogin == true){
+              promptAction.showDialog({
+                title: '登录成功',
+                message: '',
+                buttons: [
+                  {
+                    text: '进入首页',
+                    color: '#000000',
+                  }
+                ],
+              })
+            }
+            else{
+              promptAction.showDialog({
+                title: '登录失败',
+                message: '',
+                buttons: [
+                  {
+                    text: '返回',
+                    color: '#000000',
+                  }
+                ],
+              })
+            }
+          })
         })
       Text("注册账号")
         .margin({
