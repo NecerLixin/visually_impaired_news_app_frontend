@@ -8,6 +8,7 @@ struct Index {
   build() {
     Row() {
       Column() {
+        Image("https://p2.img.cctvpic.com/photoworkspace/contentimg/2024/05/22/2024052220435285125.png")
         Text(this.message)
           .fontSize(50)
           .fontWeight(FontWeight.Bold)
