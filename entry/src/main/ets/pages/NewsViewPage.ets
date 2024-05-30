@@ -1,5 +1,5 @@
-import newsModel from '../model/NewsViewModel'
-import {NewsViewModel} from '../model/NewsModel'
+import newsModel from '../view/NewsModel'
+import {NewsViewModel,Content} from '../model/NewsViewModel'
 class Item{
   name:string
   image:ResourceStr
@@ -58,7 +58,8 @@ struct Header{
 @Component
   //本页面为新闻浏览页面
 struct NewsViewPage {
-  @State newsInfo:NewsViewModel= new NewsViewModel('','','')
+  @State newsInfo:NewsViewModel= new NewsViewModel('','',null,'','','')
+  @State content:Content[] = []
   private item: Array<Item> = [
     new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
     new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
@@ -66,7 +67,9 @@ struct NewsViewPage {
     new Item("新闻标题", $r('app.media.newspic_view'), '简介')
   ]
   async aboutToAppear(){
+    //let {title,author,time,contentItem} = await newsModel.getNews()
     this.newsInfo = await newsModel.getNews()
+    //this.content = contentItem
     console.log(JSON.stringify(this.newsInfo))
   }
   //  async  onPageShow(){
@@ -86,22 +89,28 @@ struct NewsViewPage {
               Text('作者：'+this.newsInfo.author)
                 .fontSize(20)
               Text('发布时间'+this.newsInfo.time)
-
             Button('点击辅助阅读')
               .width(200)
               .margin(10)
-            this.pic(new NewsPic($r('app.media.newspic_view'),'这是图片描述'))
-            Text('  '+'正文正文正文正文正文正文' +
-            '正文正文正文正文正文正文正文正文正文正文' +
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文'+
-            '正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文')
+
+            Column({space:5}){
+            ForEach(this.newsInfo.content,
+              (content:Content)=>{
+                if(content.type=="text"){
+                  Text(content.data)
+                }else if(content.type=="img_url"){
+                  Image(content.data)
+                    .width(200)
+                    .height(200)
+                }else if(content.type=="img_desc"){
+                  Text(content.data)
+                    .fontSize(30)
+                }else if(content.type=="text-bold"){
+                  Text(content.data)
+                    .fontSize(30)
+                }
+              })
+          }
           }
           .width('90%')
           .alignItems(HorizontalAlign.Center)
@@ -111,29 +120,7 @@ struct NewsViewPage {
           Button('收藏')
 
         }
-        ForEach(this.item,
-          (item: Item) => {
-            ListItem() {
-              Row({ space: 10 }) {
-                Image(item.image)
-                  .width(100)
-                Column() {
-                  Text(item.name)
-                    .fontSize(20)
-                    .fontWeight(FontWeight.Bold)
-                  Text(item.info)
-                    .fontSize(15)
-                    .fontColor(Color.Black)
-                }
-                .height('100%')
-                .alignItems(HorizontalAlign.Start)
-              }
-              .width('100%')
-              .borderRadius(20)
-              .height(120)
-              .padding(10)
-            }
-          })
+
       }
     }.justifyContent(FlexAlign.Center)
   }
