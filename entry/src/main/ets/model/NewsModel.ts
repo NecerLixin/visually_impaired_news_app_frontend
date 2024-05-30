@@ -1,12 +1,12 @@
 import http from '@ohos.net.http';
-import {NewsViewModel} from '../model/NewsViewModel'
+import {NewsViewModel} from '../view/NewsViewModel'
 class NewsModel{
-  BaseNewsURL='http://127.0.0.1:5000/index'
+  BaseNewsURL=''
   getNews():Promise<NewsViewModel>{
     let httpRequest =http.createHttp();
     return new Promise((resolve,reject)=>{
       httpRequest.request(
-        'http://127.0.0.1:5000/index',
+        'http://172.16.24.81:5001/news/getnewsone?id=15',
         {
           method:http.RequestMethod.GET,
           header:{'Content-Type':'application/json'}
