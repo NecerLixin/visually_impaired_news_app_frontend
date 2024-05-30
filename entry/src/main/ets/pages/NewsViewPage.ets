@@ -1,4 +1,5 @@
-import getApi from '../model/NewsViewModel'
+import newsModel from '../model/NewsViewModel'
+import {NewsViewModel} from '../model/NewsModel'
 class Item{
   name:string
   image:ResourceStr
@@ -15,17 +16,6 @@ class NewsPic{
   constructor(image:ResourceStr,info:string) {
     this.image=image
     this.info=info
-  }
-}
-class NewsTittle{
-  tittle:string
-  author:string
-  date:string
-
-  constructor(tittle:string,author:string,date:string) {
-    this.tittle=tittle
-    this.author=author
-    this.date=date
   }
 }
 @Component
@@ -68,26 +58,38 @@ struct Header{
 @Component
   //本页面为新闻浏览页面
 struct NewsViewPage {
-  @State newsInfo:any=[]
-  @State message: string = "新疆：“黄金通道”释放“黄金价值”"
+  @State newsInfo:NewsViewModel= new NewsViewModel('','','')
   private item: Array<Item> = [
     new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
     new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
     new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
     new Item("新闻标题", $r('app.media.newspic_view'), '简介')
   ]
-  aboutToAppear(){
-    this.loadNewsInfo()
+  async aboutToAppear(){
+    this.newsInfo = await newsModel.getNews()
+    console.log(JSON.stringify(this.newsInfo))
   }
+  //  async  onPageShow(){
+  //    this.newsInfo = await newsModel.getNews()
+  //    console.log('111')
+  //     // this.loadNewsInfo()
+  // }
     build() {
     Column() {
       Header({message:'新闻页面'})
       List({ space: 1 }) {
         ListItem() {
           Column() {
-            this.tittle(new NewsTittle('新疆：“黄金通道”释放“黄金价值”','xxx','2024年05月22日'))
+              Text(this.newsInfo.title)
+                .fontSize(30)
+                .textAlign(10)
+              Text('作者：'+this.newsInfo.author)
+                .fontSize(20)
+              Text('发布时间'+this.newsInfo.time)
+
             Button('点击辅助阅读')
-              .width(300)
+              .width(200)
+              .margin(10)
             this.pic(new NewsPic($r('app.media.newspic_view'),'这是图片描述'))
             Text('  '+'正文正文正文正文正文正文' +
             '正文正文正文正文正文正文正文正文正文正文' +
@@ -107,6 +109,7 @@ struct NewsViewPage {
         }
         ListItem(){
           Button('收藏')
+
         }
         ForEach(this.item,
           (item: Item) => {
@@ -119,7 +122,7 @@ struct NewsViewPage {
                     .fontSize(20)
                     .fontWeight(FontWeight.Bold)
                   Text(item.info)
-                    .fontSize(10)
+                    .fontSize(15)
                     .fontColor(Color.Black)
                 }
                 .height('100%')
@@ -135,26 +138,12 @@ struct NewsViewPage {
     }.justifyContent(FlexAlign.Center)
   }
   @Builder pic(newsPic:NewsPic){
-    Column(){
+    Column({space:5}){
       Image(newsPic.image)
-        .width(300)
-        .height(300)
+        .width(200)
+        .height(200)
       Text(newsPic.info)
+        .fontSize(30)
     }
-  }
-  @Builder tittle(newsTittle:NewsTittle){
-    Column(){
-      Text(newsTittle.tittle)
-      .fontSize(40)
-      .textAlign(10)
-      Text('发布时间'+newsTittle.date)
-    }
-  }
-  loadNewsInfo(){
-    getApi.getNews()
-      .then((res:any)=>{
-        this.newsInfo=res
-        console.log(JSON.stringify(res.tag))
-      })
   }
 }
