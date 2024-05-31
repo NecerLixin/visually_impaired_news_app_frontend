@@ -1,15 +1,5 @@
-import newsModel from '../view/NewsModel'
-import {NewsViewModel,Content} from '../model/NewsViewModel'
-class Item{
-  name:string
-  image:ResourceStr
-  info:string
-  constructor(name:string,image:ResourceStr,info:string) {
-    this.name=name
-    this.image=image
-    this.info=info
-  }
-}
+import newsModel from '../model/NewsModel'
+import {NewsViewModel,Content} from '../view/NewsViewModel'
 class NewsPic{
   image:ResourceStr
   info:string
@@ -60,17 +50,10 @@ struct Header{
 struct NewsViewPage {
   @State newsInfo:NewsViewModel= new NewsViewModel('','',null,'','','')
   @State content:Content[] = []
-  private item: Array<Item> = [
-    new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
-    new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
-    new Item("新闻标题", $r('app.media.newspic_view'), '简介'),
-    new Item("新闻标题", $r('app.media.newspic_view'), '简介')
-  ]
   async aboutToAppear(){
     //let {title,author,time,contentItem} = await newsModel.getNews()
     this.newsInfo = await newsModel.getNews()
     //this.content = contentItem
-    console.log(JSON.stringify(this.newsInfo))
   }
   //  async  onPageShow(){
   //    this.newsInfo = await newsModel.getNews()
@@ -79,6 +62,7 @@ struct NewsViewPage {
   // }
     build() {
     Column() {
+
       Header({message:'新闻页面'})
       List({ space: 1 }) {
         ListItem() {
@@ -97,7 +81,7 @@ struct NewsViewPage {
             ForEach(this.newsInfo.content,
               (content:Content)=>{
                 if(content.type=="text"){
-                  Text(content.data)
+                  Text('  '+content.data)
                 }else if(content.type=="img_url"){
                   Image(content.data)
                     .width(200)
@@ -118,7 +102,6 @@ struct NewsViewPage {
         }
         ListItem(){
           Button('收藏')
-
         }
 
       }
