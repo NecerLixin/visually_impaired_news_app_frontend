@@ -1,9 +1,9 @@
 {
   "src": [
     "pages/Index",
-    "pages/HistoryPage",
     "pages/LoginPage",
     "pages/LoginPage",
-    "pages/RegisterPage"
+    "pages/RegisterPage",
+    "pages/HomePage"
   ]
 }

@@ -1,6 +1,6 @@
 import wordModel from '../model/HistoryModel'
 import ArrayList from '@ohos.util.ArrayList';
-import { HistoryViewModel } from '../view/HistoryViewModel'
+import { HistoryViewModel } from './HistoryViewModel'
 import {getItem}  from '../common/history_com'
 //生成每一条历史记录的卡片
 @Builder function HistoryCard(item:HistoryViewModel){
@@ -38,32 +38,18 @@ import {getItem}  from '../common/history_com'
   .backgroundColor('#fff')
   .borderRadius(8)
 }
-
-@Entry
 @Component
-struct History {
+export struct History {
   //初始化items
 @State items:HistoryViewModel[] = []
   //使用异步方法获取items
   async aboutToAppear(){
     this.items = await getItem()
-    //console.log(JSON.stringify(this.items))
+    console.log('成功触发')
   }
 
   build() {
       Column() {
-        Row(){
-          Image($r('app.media.historty_back'))
-            .backgroundColor(Color.White)
-            .width(30)
-          Text("历史记录")
-            .fontSize(25)
-            .onClick(()=>console.log('test',this.items[0].title))
-        }
-        .width('100%')
-        .height(60)
-        .padding({left:14, right:14})
-        .justifyContent(FlexAlign.Start)
         //使用List展示卡片
         List({space:10}){
             ForEach(this.items,(item:HistoryViewModel)=>{
