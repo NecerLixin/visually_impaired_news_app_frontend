@@ -1,6 +1,5 @@
 import newsModel from '../model/NewsModel'
 import {NewsViewModel,Content} from '../view/NewsViewModel'
-import demo from '../pages/demo'
 class NewsPic{
   image:ResourceStr
   info:string
@@ -75,9 +74,6 @@ struct NewsViewPage {
                 .fontSize(20)
               Text('发布时间'+this.newsInfo.time)
             Button('点击辅助阅读')
-              .onClick(()=>{
-                demo.avPlayerUrlDemo()
-              })
               .width(200)
               .margin(10)
 
