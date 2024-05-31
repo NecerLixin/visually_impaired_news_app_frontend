@@ -1,5 +1,6 @@
 import newsModel from '../model/NewsModel'
 import {NewsViewModel,Content} from '../view/NewsViewModel'
+import demo from '../pages/demo'
 class NewsPic{
   image:ResourceStr
   info:string
@@ -54,7 +55,6 @@ struct NewsViewPage {
     //let {title,author,time,contentItem} = await newsModel.getNews()
     this.newsInfo = await newsModel.getNews()
     //this.content = contentItem
-    console.log(JSON.stringify(this.newsInfo))
   }
   //  async  onPageShow(){
   //    this.newsInfo = await newsModel.getNews()
@@ -63,6 +63,7 @@ struct NewsViewPage {
   // }
     build() {
     Column() {
+
       Header({message:'新闻页面'})
       List({ space: 1 }) {
         ListItem() {
@@ -74,6 +75,9 @@ struct NewsViewPage {
                 .fontSize(20)
               Text('发布时间'+this.newsInfo.time)
             Button('点击辅助阅读')
+              .onClick(()=>{
+                demo.avPlayerUrlDemo()
+              })
               .width(200)
               .margin(10)
 
