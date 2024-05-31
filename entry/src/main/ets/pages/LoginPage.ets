@@ -1,3 +1,12 @@
+export function skip(){
+  router.pushUrl({url:'pages/HomePage'}, router.RouterMode.Standard, (err) => {
+    if (err) {
+      console.error(`Invoke pushUrl failed, code is ${err.code}, message is ${err.message}`);
+      return;
+    }
+    console.info('Invoke pushUrl succeeded.');
+  })
+}
 import {LoginViewModel} from '../view/LoginViewModel'
 import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
@@ -76,7 +85,8 @@ struct LoginPage {
                     color: '#000000',
                   }
                 ],
-              })
+              }).then(data=>
+              skip())
             }
             else{
               promptAction.showDialog({
