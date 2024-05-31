@@ -1,0 +1,57 @@
+* [33mcommit 3c5ae5ad3f2e18a08fe96376c3073d7b37b0236d[m[33m ([m[1;36mHEAD -> [m[1;32mbrowse-Xiao[m[33m)[m
+[31m|[m Author: XiaoShiYangxsy <1740122621@qq.com>
+[31m|[m Date:   Sun May 19 10:58:23 2024 +0800
+[31m|[m 
+[31m|[m     README.md添加分支名称--byxiao
+[31m|[m 
+* [33mcommit 30699c41c743beaa84f49633ae17f279d7d7c7c9[m[33m ([m[1;32mdevelop[m[33m)[m
+[31m|[m Author: Li Jinliang <necerlixin@outlook.com>
+[31m|[m Date:   Sun May 19 09:40:45 2024 +0800
+[31m|[m 
+[31m|[m     删除hello.txt文件--by李锦亮
+[31m|[m 
+* [33mcommit df5807f2ab2d8cc6829f9a42aa443ade883676e7[m
+[31m|[m Author: Li Jinliang <necerlixin@outlook.com>
+[31m|[m Date:   Sun May 19 09:39:14 2024 +0800
+[31m|[m 
+[31m|[m     李锦亮修改
+[31m|[m   
+*   [33mcommit f6264f9c2b2e06dab3899b9fa0d5d1b5b77a5344[m
+[32m|[m[33m\[m  Merge: 14bbddc 2979045
+[32m|[m [33m|[m Author: Li Jinliang <necerlixin@outlook.com>
+[32m|[m [33m|[m Date:   Sat May 18 16:14:44 2024 +0800
+[32m|[m [33m|[m 
+[32m|[m [33m|[m     Merge branch 'main' of github.com:NecerLixin/visually_impaired_news_app_frontend
+[32m|[m [33m|[m   
+[32m|[m *   [33mcommit 29790459d6d1a75a517ef238aaa7deef52db33bd[m
+[32m|[m [34m|[m[35m\[m  Merge: dbd8412 9034929
+[32m|[m [34m|[m [35m|[m Author: Jinlinag Li <107804863+NecerLixin@users.noreply.github.com>
+[32m|[m [34m|[m [35m|[m Date:   Sat May 18 11:42:17 2024 +0800
+[32m|[m [34m|[m [35m|[m 
+[32m|[m [34m|[m [35m|[m     Merge pull request #1 from NecerLixin/lijinliang
+[32m|[m [34m|[m [35m|[m     
+[32m|[m [34m|[m [35m|[m     lijinliang add
+[32m|[m [34m|[m [35m|[m 
+[32m|[m [34m|[m * [33mcommit 9034929da308858409e50ab2969b1dad51240d56[m
+[32m|[m [34m|[m[34m/[m  Author: Li Jinliang <necerlixin@outlook.com>
+[32m|[m [34m|[m   Date:   Sat May 18 11:30:01 2024 +0800
+[32m|[m [34m|[m   
+[32m|[m [34m|[m       lijinliang add
+[32m|[m [34m|[m 
+* [34m|[m [33mcommit 14bbddc398f8db78343efd97b8e1cb9633143331[m
+[34m|[m[34m/[m  Author: Li Jinliang <necerlixin@outlook.com>
+[34m|[m   Date:   Sat May 18 16:12:21 2024 +0800
+[34m|[m   
+[34m|[m       李锦亮修改
+[34m|[m 
+* [33mcommit dbd8412f0cf15964b95f20b8257cc63387f7e277[m
+[35m|[m Author: Li Jinliang <necerlixin@outlook.com>
+[35m|[m Date:   Fri May 17 16:31:24 2024 +0800
+[35m|[m 
+[35m|[m     第一次提交
+[35m|[m 
+* [33mcommit a58501137df9984f496a1ac8d3417f22448da975[m
+  Author: Jinlinag Li <107804863+NecerLixin@users.noreply.github.com>
+  Date:   Fri May 17 16:16:07 2024 +0800
+  
+      Initial commit

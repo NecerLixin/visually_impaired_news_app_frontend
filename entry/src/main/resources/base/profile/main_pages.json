@@ -1,5 +1,10 @@
 {
   "src": [
-    "pages/Index"
+    "pages/NewsViewPage",
+    "pages/Index",
+    "pages/LoginPage",
+    "pages/LoginPage",
+    "pages/RegisterPage",
+    "pages/HomePage"
   ]
 }
