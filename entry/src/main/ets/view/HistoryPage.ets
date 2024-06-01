@@ -2,8 +2,9 @@ import wordModel from '../model/HistoryModel'
 import ArrayList from '@ohos.util.ArrayList';
 import { HistoryViewModel } from './HistoryViewModel'
 import {getItem}  from '../common/history_com'
+import router from '@ohos.router';
 //生成每一条历史记录的卡片
-@Builder function HistoryCard(item:HistoryViewModel){
+@Builder function HistoryCard(item:HistoryViewModel,account:string){
   Row({space:10}){
     Column(){
       Row(){
@@ -32,6 +33,15 @@ import {getItem}  from '../common/history_com'
     }
     .alignItems(HorizontalAlign.Start)
   }
+  .onClick(()=>{
+    router.replaceUrl({
+      url: 'pages/NewsViewPage',
+      params: {
+        news_id :item.news_id,
+        account :account
+      }
+    })
+  })
   .width('100%')
   .height('20%')
   .padding({left:14,right:14})
@@ -42,9 +52,11 @@ import {getItem}  from '../common/history_com'
 export struct History {
   //初始化items
 @State items:HistoryViewModel[] = []
+  account = ''
   //使用异步方法获取items
   async aboutToAppear(){
-    this.items = await getItem()
+    this.account = router.getParams()['account']
+    this.items = await getItem(this.account)
     console.log('成功触发')
   }
 
@@ -54,7 +66,7 @@ export struct History {
         List({space:10}){
             ForEach(this.items,(item:HistoryViewModel)=>{
               ListItem(){
-                  HistoryCard(item)
+                  HistoryCard(item,this.account)
               }
             })
         }

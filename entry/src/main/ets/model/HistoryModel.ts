@@ -4,11 +4,11 @@ import http from '@ohos.net.http'
 import defaultAppManager from '@ohos.bundle.defaultAppManager';
 import ArrayList from '@ohos.util.ArrayList';
 class HistoryModel{//创建连接
-  wordUrl:string = 'http://172.16.24.81:5001/users/gethistory?userid=2'//后端传上来的网址
-  getWord():Promise<HistoryViewModel[]>{
+  wordUrl:string = ''//后端传上来的网址
+  getWord(account:string):Promise<HistoryViewModel[]>{
     //1. 创建http对象
     let  httpRequest = http.createHttp()
-
+    this.wordUrl = 'http://172.16.24.81:5001/users/gethistory?account='+account
     return new Promise((resolve,reject)=>{
       httpRequest.request(this.wordUrl,{
         method:http.RequestMethod.GET,
