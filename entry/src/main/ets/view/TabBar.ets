@@ -1,9 +1,11 @@
-import NewsViewModel,{ CustomRefreshLoadLayoutClass,NewsTypeBean,ResponseResult} from '../viewModel/NewsViewModel'
+import NewsViewModel,{ CustomRefreshLoadLayoutClass,NewsTypeBean,ResponseResult} from '../viewModel/HomeViewModel'
 import { CommonConstant as Const } from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/common/constant/CommonConstant';
 import NewsModel from '../viewModel/NewsModel';
 import RefreshLayout from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/view/RefreshLayout';
 import  HttpRequestGet  from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/common/utils/HttpUtil'
 import { History } from './HistoryPage'
+import router from '@ohos.router';
+import { Connect } from '../common/HomeConnect'
 @Component
 export default struct TabBar {
 
@@ -12,11 +14,13 @@ export default struct TabBar {
   @State currentPage: number = 1;
   @State newsModel: NewsModel = new NewsModel()
   @State items:ResponseResult[] = []
+  account:string
   async aboutToAppear() {
     this.items = await HttpRequestGet.getWord()
     console.log(JSON.stringify(this.items[0]))
     console.log(this.items[0].brief)
-    console.log(this.items[0].news_category)
+    console.log('首页',router.getParams()['data1'])
+    this.account = router.getParams()['account']
     //this.changeCategory()
   }
   build() {
@@ -75,6 +79,17 @@ export default struct TabBar {
               .height("100%")
             }.height('45%')
           }
+          .onClick(()=>{
+            Connect(this.account,newsData.news_id).then(res=>{
+              router.replaceUrl({
+                url: 'pages/NewsViewPage',
+                params: {
+                  news_id :newsData.news_id,
+                  account :this.account
+                }
+              })
+            })
+          })
           .alignItems(HorizontalAlign.Start)
         }
         .width('100%')

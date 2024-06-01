@@ -1,5 +1,6 @@
 import newsModel from '../model/NewsModel'
 import {NewsViewModel,Content} from '../view/NewsViewModel'
+import router from '@ohos.router'
 class NewsPic{
   image:ResourceStr
   info:string
@@ -8,51 +9,19 @@ class NewsPic{
     this.info=info
   }
 }
-@Component
-struct Header{
-  private message:ResourceStr
-
-  build(){
-  Row() {
-    Button() {
-      Image($r('app.media.back_view'))
-        .fillColor(Color.Gray)
-        .width(20)
-    }
-    .width(30)
-    .height(30)
-    .backgroundColor(Color.White)
-    .type(ButtonType.Normal)
-
-    Text(this.message)
-      .fontSize(28)
-    Blank()
-
-    Button() {
-      Image($r('app.media.menu_view'))
-        .fillColor(Color.Gray)
-        .width(20)
-    }
-    .width(30)
-    .height(30)
-    .backgroundColor(Color.White)
-    .type(ButtonType.Normal)
-  }
-  .justifyContent(FlexAlign.Start)
-  .padding({left:14,right:14})
-  .width('100%')
-    .height(50)
-  }
-}
 @Entry
 @Component
   //本页面为新闻浏览页面
 struct NewsViewPage {
   @State newsInfo:NewsViewModel= new NewsViewModel('','',null,'','','')
   @State content:Content[] = []
+  news_id:string
+  account:string
   async aboutToAppear(){
+    this.news_id = router.getParams()['news_id']
+    this.account = router.getParams()['account']
     //let {title,author,time,contentItem} = await newsModel.getNews()
-    this.newsInfo = await newsModel.getNews()
+    this.newsInfo = await newsModel.getNews(this.news_id)
     //this.content = contentItem
   }
   //  async  onPageShow(){
@@ -63,7 +32,35 @@ struct NewsViewPage {
     build() {
     Column() {
 
-      Header({message:'新闻页面'})
+      Row() {
+        Button() {
+          Image($r('app.media.back_view'))
+            .fillColor(Color.Gray)
+            .width(20)
+        }
+        .width(30)
+        .height(30)
+        .backgroundColor(Color.White)
+        .type(ButtonType.Normal)
+
+        Text('新闻页面')
+          .fontSize(28)
+        Blank()
+
+      }
+      .onClick(()=>{
+        router.replaceUrl({
+          url: 'pages/HomePage',
+          params: {
+            data1: '首页登录成功',
+            account: this.account
+          }
+        })
+      })
+      .justifyContent(FlexAlign.Start)
+      .padding({left:14,right:14})
+      .width('100%')
+      .height(50)
       List({ space: 1 }) {
         ListItem() {
           Column() {
@@ -100,9 +97,7 @@ struct NewsViewPage {
           .alignItems(HorizontalAlign.Center)
           .margin(20)
         }
-        ListItem(){
-          Button('收藏')
-        }
+
 
       }
     }.justifyContent(FlexAlign.Center)

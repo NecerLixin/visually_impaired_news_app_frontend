@@ -19,7 +19,7 @@
 import defaultAppManager from '@ohos.bundle.defaultAppManager';
 import ArrayList from '@ohos.util.ArrayList';
 import http from '@ohos.net.http';
-import { ResponseResult } from '../../viewModel/NewsViewModel';
+import { ResponseResult } from '../../viewModel/HomeViewModel';
 import { CommonConstant as Const, ContentType } from '../../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/common/constant/CommonConstant';
 
 /**

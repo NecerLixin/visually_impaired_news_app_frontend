@@ -1,5 +1,5 @@
 import { CommonConstant as Const, PageState } from '../common/constant/CommonConstant';
-import { ResponseResult } from './NewsViewModel';
+import { ResponseResult } from './HomeViewModel';
 
 export default class NewsModel {
   newsData: Array<ResponseResult> = [];
