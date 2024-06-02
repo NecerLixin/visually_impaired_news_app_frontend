@@ -1,36 +1,31 @@
-import ArrayList from '@ohos.util.ArrayList';
-export class Content{
-  type:string
-  data:string
-  constructor(type:string,data:string) {
-    this.type=type
-    this.data=data
+import http from '@ohos.net.http';
+import {NewsModel} from '../model/NewsModel'
+class NewsViewModel{
+  BaseNewsURL=''
+  getNews(news_id:string):Promise<NewsModel>{
+    let httpRequest =http.createHttp();
+    return new Promise((resolve,reject)=>{
+      httpRequest.request(
+        'http://172.16.24.81:5001/news/getnewsone?id='+news_id,
+        {
+          method:http.RequestMethod.GET,
+          header:{'Content-Type':'application/json'}
+        }
+      )
+        .then((resp:http.HttpResponse)=>{
+          // console.log("返回代码：",resp.responseCode.toString())
+          //console.log('222')
+          if(resp.responseCode === 200){
+            resolve(JSON.parse(resp.result.toString()))
+          }else {
+            console.log('请求失败！',JSON.stringify(resp))
+            reject(JSON.stringify(resp))
+          }
+        })
+        .catch((err:Error)=>{console.log('请求失败',JSON.stringify(err))
+        reject(JSON.stringify(err))})
+    })
   }
 }
-export class NewsViewModel{
-  title:string
-  author:string
-  category:string
-  source:string
-  time:string
-  content:Array<Content>
-  constructor(author:string,category:string,content:Array<Content>,title:string,time:string,source:string) {
-    this.title=title
-    this.author=author
-    this.time=time
-    this.content=content
-    this.category=category
-    this.source=source
-  }
-}
-export  class Item{
-  name:string
-  image:string
-  info:string
-  constructor(name:string,image:string,info:string) {
-    this.name=name
-    this.image=image
-    this.info=info
-  }
-}
-
+const newsModel=new NewsViewModel()
+export default newsModel

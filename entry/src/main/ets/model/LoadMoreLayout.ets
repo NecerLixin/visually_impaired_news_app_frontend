@@ -1,5 +1,5 @@
 import { CustomRefreshLoadLayoutClass } from '../viewModel/HomeViewModel'
-import { CustomRefreshLoadLayout } from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/view/CustomRefreshLoadLayout'
+import { CustomRefreshLoadLayout } from './/CustomRefreshLoadLayout'
 @Component
 export struct LoadMoreLayout {
   @ObjectLink loadMoreLayoutClass:CustomRefreshLoadLayoutClass

@@ -9,7 +9,7 @@ export function skip(){
 }
 import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
-import { RegisterViewModel } from '../view/RegisterViewModel'
+import { RegisterModel } from '../model/RegisterModel'
 @Entry
 @Component
 struct login {
@@ -17,7 +17,7 @@ struct login {
   @State password1: string = ''
   @State password2: string = ''
   @State IsRegister: boolean = false
-  @State message:RegisterViewModel = new RegisterViewModel(this.account,this.password2)
+  @State message:RegisterModel = new RegisterModel(this.account,this.password2)
   build() {
     Column(){
       Row(){

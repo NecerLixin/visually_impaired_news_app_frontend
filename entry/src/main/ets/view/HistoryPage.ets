@@ -1,10 +1,10 @@
-import wordModel from '../model/HistoryModel'
+import wordModel from './HistoryViewModel'
 import ArrayList from '@ohos.util.ArrayList';
-import { HistoryViewModel } from './HistoryViewModel'
+import { HistoryModel } from '../model/HistoryModel'
 import {getItem}  from '../common/history_com'
 import router from '@ohos.router';
 //生成每一条历史记录的卡片
-@Builder function HistoryCard(item:HistoryViewModel,account:string){
+@Builder function HistoryCard(item:HistoryModel, account:string){
   Row({space:10}){
     Column(){
       Row(){
@@ -51,7 +51,7 @@ import router from '@ohos.router';
 @Component
 export struct History {
   //初始化items
-@State items:HistoryViewModel[] = []
+@State items:HistoryModel[] = []
   account = ''
   //使用异步方法获取items
   async aboutToAppear(){
@@ -64,7 +64,7 @@ export struct History {
       Column() {
         //使用List展示卡片
         List({space:10}){
-            ForEach(this.items,(item:HistoryViewModel)=>{
+            ForEach(this.items,(item:HistoryModel)=>{
               ListItem(){
                   HistoryCard(item,this.account)
               }

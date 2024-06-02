@@ -7,7 +7,7 @@ export function skip(){
     console.info('Invoke pushUrl succeeded.');
   })
 }
-import {LoginViewModel} from '../view/LoginViewModel'
+import {LoginModel} from '../model/LoginModel'
 import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
 @Entry
@@ -16,7 +16,7 @@ struct LoginPage {
   @State account:string = ''
   @State password:string =''
   @State Islogin:boolean = false
-  @State message:LoginViewModel = new LoginViewModel(this.account,this.password)
+  @State message:LoginModel = new LoginModel(this.account,this.password)
 
   build() {
     Column() {
