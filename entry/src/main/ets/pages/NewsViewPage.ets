@@ -1,5 +1,5 @@
-import newsModel from '../model/NewsModel'
-import {NewsViewModel,Content} from '../view/NewsViewModel'
+import newsModel from '../view/NewsViewModel'
+import {NewsModel,Content} from '../model/NewsModel'
 import router from '@ohos.router'
 class NewsPic{
   image:ResourceStr
@@ -13,7 +13,7 @@ class NewsPic{
 @Component
   //本页面为新闻浏览页面
 struct NewsViewPage {
-  @State newsInfo:NewsViewModel= new NewsViewModel('','',null,'','','')
+  @State newsInfo:NewsModel= new NewsModel('','',null,'','','')
   @State content:Content[] = []
   news_id:string
   account:string

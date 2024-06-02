@@ -1,9 +1,9 @@
 import NewsViewModel,{ CustomRefreshLoadLayoutClass,NewsTypeBean,ResponseResult} from '../viewModel/HomeViewModel'
 import { CommonConstant as Const } from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/common/constant/CommonConstant';
 import NewsModel from '../viewModel/NewsModel';
-import RefreshLayout from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/view/RefreshLayout';
+import RefreshLayout from './/RefreshLayout';
 import  HttpRequestGet  from '../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/common/utils/HttpUtil'
-import { History } from './HistoryPage'
+import { History } from '../view/HistoryPage'
 import router from '@ohos.router';
 import { Connect } from '../common/HomeConnect'
 @Component
