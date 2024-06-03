@@ -17,10 +17,10 @@ import router from '@ohos.router';
         Image(item.img_url)
           .width(100)
         Column(){
-          Text(item.news_brief.substring(0,60))
+          Text(item.news_brief)
             .fontSize(10)
             .fontColor('#888')
-            .decoration({type:TextDecorationType.LineThrough})
+            // .decoration({type:TextDecorationType.LineThrough})
             .textAlign(TextAlign.Start)
           Text(item.history_time)
             .fontSize(10)

@@ -81,8 +81,8 @@ struct NewsViewPage {
                   Text('  '+content.data)
                 }else if(content.type=="img_url"){
                   Image(content.data)
-                    .width(200)
-                    .height(200)
+                    .width("100%")
+                    // .height(200)
                 }else if(content.type=="img_desc"){
                   Text(content.data)
                     .fontSize(30)
@@ -97,16 +97,14 @@ struct NewsViewPage {
           .alignItems(HorizontalAlign.Center)
           .margin(20)
         }
-
-
       }
     }.justifyContent(FlexAlign.Center)
   }
   @Builder pic(newsPic:NewsPic){
     Column({space:5}){
       Image(newsPic.image)
-        .width(200)
-        .height(200)
+        .width("100%")
+        // .height(200)
       Text(newsPic.info)
         .fontSize(30)
     }

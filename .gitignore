@@ -1,6 +1,6 @@
 /node_modules
 /oh_modules
-/local.properties
+*.properties
 /.idea
 **/build
 /.hvigor
