@@ -6,6 +6,7 @@ import  HttpRequestGet  from '../../../../../../visually_impaired_news_app_front
 import { History } from '../view/HistoryPage'
 import router from '@ohos.router';
 import { Connect } from '../common/HomeConnect'
+import {ConnectState} from '../common/utils/State'
 @Component
 export default struct TabBar {
 
@@ -14,19 +15,32 @@ export default struct TabBar {
   @State currentPage: number = 1;
   @State newsModel: NewsModel = new NewsModel()
   @State items:ResponseResult[] = []
+  @State connectState:number = ConnectState.IsConnecting
   account:string
   async aboutToAppear() {
+    this.connectState = ConnectState.IsConnecting
     this.items = await HttpRequestGet.getWord()
     console.log(JSON.stringify(this.items[0]))
     console.log(this.items[0].brief)
     console.log('首页',router.getParams()['data1'])
     this.account = router.getParams()['account']
+    if(this.items.length > 0){
+      this.connectState = ConnectState.IsConnected
+    }
+    else{
+      this.connectState = ConnectState.IsConnectingError
+    }
     //this.changeCategory()
   }
   build() {
     Tabs(){
       TabContent(){
-        this.ListLayout()
+        if(this.connectState === ConnectState.IsConnecting){
+          this.Loading()
+        }
+        else{
+          this.ListLayout()
+        }
       }.tabBar(this.TabBuilder(0))
       TabContent(){
         History()
@@ -41,6 +55,23 @@ export default struct TabBar {
     })
     .vertical(false)
   }
+
+
+
+  @Builder Loading(){
+    Column(){
+        Image($r('app.media.ic_pull_up_load'))
+          // .autoResize(true)
+          // .sourceSize({width:10,height:10})
+          // .width(10)
+          .width(25).height(25)
+    }
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Center)
+    .width('93.3%')
+    .height('100%')
+  }
+
 
   @Builder ListLayout() {
     List() {
@@ -59,15 +90,15 @@ export default struct TabBar {
                 .fontColor(Color.Black)
                 .fontWeight(FontWeight.Bold)
             }
-            .margin(5)
+            // .margin(5)
             Row(){
               Image(newsData.news_img_url)
               .width(100)
               Column(){
-                Text(newsData.brief.substring(0,60))
+                Text(newsData.brief)
                   .fontSize(10)
                   .fontColor('#888')
-                  .decoration({type:TextDecorationType.LineThrough})
+                  // .decoration({type:TextDecorationType.LineThrough})
                   .textAlign(TextAlign.Start)
                 Text(newsData.news_date)
                   .fontSize(10)
