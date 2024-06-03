@@ -1,20 +1,18 @@
 import http from '@ohos.net.http';
 import {NewsModel} from '../model/NewsModel'
+
 class NewsViewModel{
-  BaseNewsURL=''
-  getNews(news_id:string):Promise<NewsModel>{
+  getNews(api:string):Promise<NewsModel>{
     let httpRequest =http.createHttp();
     return new Promise((resolve,reject)=>{
       httpRequest.request(
-        'http://172.16.24.81:5001/news/getnewsone?id='+news_id,
+        api,
         {
           method:http.RequestMethod.GET,
           header:{'Content-Type':'application/json'}
         }
       )
         .then((resp:http.HttpResponse)=>{
-          // console.log("返回代码：",resp.responseCode.toString())
-          //console.log('222')
           if(resp.responseCode === 200){
             resolve(JSON.parse(resp.result.toString()))
           }else {
