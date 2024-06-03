@@ -1,7 +1,9 @@
 import newsModel from '../view/NewsViewModel'
 import {NewsModel,Content} from '../model/NewsModel'
 import router from '@ohos.router'
-import audioPlayer from '../common/utils/AudioPlay'
+import {AudioPlayer} from '../common/utils/AudioPlay'
+import {API} from '../common/utils/API'
+import {CommonHTTP} from '../common/utils/HttpUtil'
 class NewsPic{
   image:ResourceStr
   info:string
@@ -18,21 +20,30 @@ struct NewsViewPage {
   @State content:Content[] = []
   news_id:string
   account:string
+  // @State Isread:Boolean = false
+  @State @Watch('audioStateUpdate') Isread:boolean = true
+  @State audioPlayer:AudioPlayer = new AudioPlayer()
+
+
+  audioStateUpdate(){
+    if(this.Isread==false){
+      this.audioPlayer.avPlayerUrlDemo(API.audio + this.news_id + '.mp3')
+    }
+    else{
+      if(this.Isread==true){this.audioPlayer.quit()}
+    }
+  }
   async aboutToAppear(){
     this.news_id = router.getParams()['news_id']
     this.account = router.getParams()['account']
     //let {title,author,time,contentItem} = await newsModel.getNews()
-    this.newsInfo = await newsModel.getNews(this.news_id)
+    this.newsInfo = await newsModel.getNews(API.get_news_one + this.news_id)
+    await new CommonHTTP().http(API.tts + this.news_id)
     //this.content = contentItem
   }
-  //  async  onPageShow(){
-  //    this.newsInfo = await newsModel.getNews()
-  //    console.log('111')
-  //     // this.loadNewsInfo()
-  // }
+
     build() {
     Column() {
-
       Row() {
         Button() {
           Image($r('app.media.back_view'))
@@ -50,7 +61,7 @@ struct NewsViewPage {
 
       }
       .onClick(()=>{
-        audioPlayer.quit()
+        this.audioPlayer.quit()
         router.replaceUrl({
           url: 'pages/HomePage',
           params: {
@@ -72,12 +83,6 @@ struct NewsViewPage {
               Text('作者：'+this.newsInfo.author)
                 .fontSize(20)
               Text('发布时间'+this.newsInfo.time)
-            Button('点击辅助阅读')
-              .width(200)
-              .margin(10)
-            .onClick(()=>{
-              audioPlayer.avPlayerUrlDemo()
-            })
             Column({space:5}){
             ForEach(this.newsInfo.content,
               (content:Content)=>{
@@ -101,9 +106,11 @@ struct NewsViewPage {
           .alignItems(HorizontalAlign.Center)
           .margin(20)
         }
-
-
-      }
+      }.onTouch((even:TouchEvent)=>{
+        if(even.type == TouchType.Down){
+          this.Isread = !this.Isread
+        }
+      })
     }.justifyContent(FlexAlign.Center)
   }
   @Builder pic(newsPic:NewsPic){

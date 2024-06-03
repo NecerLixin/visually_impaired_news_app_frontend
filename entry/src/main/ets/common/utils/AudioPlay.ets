@@ -63,12 +63,12 @@ export class AudioPlayer {
       }
     })
   }
-  async avPlayerUrlDemo() {
+  async avPlayerUrlDemo(url) {
     // 创建avPlayer实例对象
     this.avPlayer = await media.createAVPlayer();
     // 创建状态机变化回调函数
     this.setAVPlayerCallback();
-    let url = 'http://172.16.24.81:5001/audio/tts.mp3';
+    // let url = 'http://172.16.24.81:5001/audio/tts.mp3';
     // 通过UIAbilityContext获取沙箱地址filesDir，以下为Stage模型获方式，如需在FA模型上获取请参考《访问应用沙箱》获取地址
     let context = getContext(this) as common.UIAbilityContext;
     console.log("Start avPlayer")
