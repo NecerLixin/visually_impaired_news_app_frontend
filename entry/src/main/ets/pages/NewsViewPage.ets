@@ -1,6 +1,7 @@
 import newsModel from '../view/NewsViewModel'
 import {NewsModel,Content} from '../model/NewsModel'
 import router from '@ohos.router'
+import audioPlayer from '../common/utils/AudioPlay'
 class NewsPic{
   image:ResourceStr
   info:string
@@ -49,6 +50,7 @@ struct NewsViewPage {
 
       }
       .onClick(()=>{
+        audioPlayer.quit()
         router.replaceUrl({
           url: 'pages/HomePage',
           params: {
@@ -73,7 +75,9 @@ struct NewsViewPage {
             Button('点击辅助阅读')
               .width(200)
               .margin(10)
-
+            .onClick(()=>{
+              audioPlayer.avPlayerUrlDemo()
+            })
             Column({space:5}){
             ForEach(this.newsInfo.content,
               (content:Content)=>{
