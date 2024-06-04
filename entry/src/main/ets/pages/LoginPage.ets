@@ -10,6 +10,8 @@ export function skip(){
 import {LoginModel} from '../model/LoginModel'
 import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
+import accessibility from '@ohos.accessibility';
+
 @Entry
 @Component
 struct LoginPage {
