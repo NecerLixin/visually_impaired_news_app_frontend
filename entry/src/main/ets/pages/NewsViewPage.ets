@@ -29,7 +29,8 @@ struct NewsViewPage {
 
   audioStateUpdate(){
     if(this.isRead==false){
-      this.audioPlayer.avPlayerUrlDemo(API.audio + this.news_id + '.mp3')
+      // this.audioPlayer.avPlayerUrlDemo(API.audio + this.news_id + '.mp3')
+      this.audioPlayer.avPlayerUrlDemo(API.audio + this.news_id)
     }
     else{
       if(this.isRead==true){this.audioPlayer.quit()}
