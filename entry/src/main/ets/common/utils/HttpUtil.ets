@@ -45,12 +45,12 @@ export class CommonHTTP{
           // console.log(response.result.toString())
           if(response.responseCode == 200){
             //resolve(JSON.parse(response.result.toString()))
-            resolve(JSON.parse(response.result.toString()))
+            resolve(true)
             console.log('请求成功', JSON.stringify(response))
           }
           else{
             console.log('请求失败', JSON.stringify(response))
-            reject(JSON.stringify(response))
+            reject(false)
           }
         })
         .catch(error => {
