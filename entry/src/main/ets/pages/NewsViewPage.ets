@@ -174,6 +174,5 @@ struct NewsViewPage {
     }
     .height("90%")
     .justifyContent(FlexAlign.Center)
-
   }
 }
