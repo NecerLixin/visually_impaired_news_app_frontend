@@ -28,6 +28,40 @@ import { CommonConstant as Const, ContentType } from '../../../../../../../visua
  * @param url URL for initiating an HTTP request.
  * @param params Params for initiating an HTTP request.
  */
+export class CommonHTTP{
+  http(api){
+    let  httpRequest = http.createHttp()
+
+    return new Promise((resolve,reject)=>{
+      httpRequest.request(api,{
+        method:http.RequestMethod.GET,
+        header: {
+          'Content-Type': ContentType.JSON
+        }
+        // extraData:"username=123&age=21"
+        //extraData:{'param1':'value1','param2':'value2','param3':'value3'}
+      })
+        .then((response:http.HttpResponse) => {
+          // console.log(response.result.toString())
+          if(response.responseCode == 200){
+            //resolve(JSON.parse(response.result.toString()))
+            resolve(JSON.parse(response.result.toString()))
+            console.log('请求成功', JSON.stringify(response))
+          }
+          else{
+            console.log('请求失败', JSON.stringify(response))
+            reject(JSON.stringify(response))
+          }
+        })
+        .catch(error => {
+          console.log('请求失败', JSON.stringify(error))
+          reject(JSON.stringify(error))
+        })
+      })
+  }
+
+}
+
 
 
 class httpRequestGet{

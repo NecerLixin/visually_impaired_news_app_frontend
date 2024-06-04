@@ -1,4 +1,3 @@
-import ArrayList from '@ohos.util.ArrayList';
 export class Content{
   type:string
   data:string
