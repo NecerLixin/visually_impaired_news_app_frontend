@@ -19,7 +19,7 @@
 import defaultAppManager from '@ohos.bundle.defaultAppManager';
 import ArrayList from '@ohos.util.ArrayList';
 import http from '@ohos.net.http';
-import { ResponseResult } from '../../viewModel/NewsViewModel';
+import { ResponseResult } from '../../viewModel/HomeViewModel';
 import { CommonConstant as Const, ContentType } from '../../../../../../../visually_impaired_news_app_frontend/entry/src/main/ets/common/constant/CommonConstant';
 
 /**
@@ -28,6 +28,40 @@ import { CommonConstant as Const, ContentType } from '../../../../../../../visua
  * @param url URL for initiating an HTTP request.
  * @param params Params for initiating an HTTP request.
  */
+export class CommonHTTP{
+  http(api){
+    let  httpRequest = http.createHttp()
+
+    return new Promise((resolve,reject)=>{
+      httpRequest.request(api,{
+        method:http.RequestMethod.GET,
+        header: {
+          'Content-Type': ContentType.JSON
+        }
+        // extraData:"username=123&age=21"
+        //extraData:{'param1':'value1','param2':'value2','param3':'value3'}
+      })
+        .then((response:http.HttpResponse) => {
+          // console.log(response.result.toString())
+          if(response.responseCode == 200){
+            //resolve(JSON.parse(response.result.toString()))
+            resolve(true)
+            console.log('请求成功', JSON.stringify(response))
+          }
+          else{
+            console.log('请求失败', JSON.stringify(response))
+            reject(false)
+          }
+        })
+        .catch(error => {
+          console.log('请求失败', JSON.stringify(error))
+          reject(JSON.stringify(error))
+        })
+      })
+  }
+
+}
+
 
 
 class httpRequestGet{

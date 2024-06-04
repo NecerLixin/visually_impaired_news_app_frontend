@@ -1,9 +1,10 @@
-import wordModel from '../model/HistoryModel'
+import wordModel from './HistoryViewModel'
 import ArrayList from '@ohos.util.ArrayList';
-import { HistoryViewModel } from './HistoryViewModel'
+import { HistoryModel } from '../model/HistoryModel'
 import {getItem}  from '../common/history_com'
+import router from '@ohos.router';
 //生成每一条历史记录的卡片
-@Builder function HistoryCard(item:HistoryViewModel){
+@Builder function HistoryCard(item:HistoryModel, account:string){
   Row({space:10}){
     Column(){
       Row(){
@@ -16,10 +17,10 @@ import {getItem}  from '../common/history_com'
         Image(item.img_url)
           .width(100)
         Column(){
-          Text(item.news_brief.substring(0,60))
+          Text(item.news_brief)
             .fontSize(10)
             .fontColor('#888')
-            .decoration({type:TextDecorationType.LineThrough})
+            // .decoration({type:TextDecorationType.LineThrough})
             .textAlign(TextAlign.Start)
           Text(item.history_time)
             .fontSize(10)
@@ -32,6 +33,15 @@ import {getItem}  from '../common/history_com'
     }
     .alignItems(HorizontalAlign.Start)
   }
+  .onClick(()=>{
+    router.replaceUrl({
+      url: 'pages/NewsViewPage',
+      params: {
+        news_id :item.news_id,
+        account :account
+      }
+    })
+  })
   .width('100%')
   .height('20%')
   .padding({left:14,right:14})
@@ -41,10 +51,12 @@ import {getItem}  from '../common/history_com'
 @Component
 export struct History {
   //初始化items
-@State items:HistoryViewModel[] = []
+@State items:HistoryModel[] = []
+  account = ''
   //使用异步方法获取items
   async aboutToAppear(){
-    this.items = await getItem()
+    this.account = router.getParams()['account']
+    this.items = await getItem(this.account)
     console.log('成功触发')
   }
 
@@ -52,9 +64,9 @@ export struct History {
       Column() {
         //使用List展示卡片
         List({space:10}){
-            ForEach(this.items,(item:HistoryViewModel)=>{
+            ForEach(this.items,(item:HistoryModel)=>{
               ListItem(){
-                  HistoryCard(item)
+                  HistoryCard(item,this.account)
               }
             })
         }

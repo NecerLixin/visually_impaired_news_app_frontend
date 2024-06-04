@@ -43,12 +43,12 @@ export class ResponseResult{
   brief:string
   news_category:string
   news_date:string
-  news_id:number
+  news_id:string
   news_img_url:string
   news_title:string
   tag:string
 
-  constructor(brief: string, news_category: string, news_date: string, news_id: number,
+  constructor(brief: string, news_category: string, news_date: string, news_id: string,
               news_img_url: string, news_title: string, tag: string) {
     this.brief=brief
     this.news_category=news_category

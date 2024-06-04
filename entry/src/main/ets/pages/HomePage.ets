@@ -1,4 +1,4 @@
-import  TabBar  from '../view/TabBar'
+import  TabBar  from '../model/TabBar'
 
 @Entry
 @Component

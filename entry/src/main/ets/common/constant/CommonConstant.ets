@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { NewsTypeBean } from '../../viewmodel/NewsViewModel';
+import { NewsTypeBean } from '../../viewmodel/HomeViewModel';
 
 export class CommonConstant {
 

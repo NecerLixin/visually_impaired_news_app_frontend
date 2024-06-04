@@ -1,4 +1,4 @@
-import { CustomRefreshLoadLayoutClass } from '../viewModel/NewsViewModel'
+import { CustomRefreshLoadLayoutClass } from '../viewModel/HomeViewModel'
 @Component
 export struct CustomRefreshLoadLayout {
 

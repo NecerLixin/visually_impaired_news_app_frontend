@@ -7,16 +7,18 @@ export function skip(){
     console.info('Invoke pushUrl succeeded.');
   })
 }
-import {LoginViewModel} from '../view/LoginViewModel'
+import {LoginModel} from '../model/LoginModel'
 import router from '@ohos.router'
 import promptAction from '@ohos.promptAction'
+import accessibility from '@ohos.accessibility';
+
 @Entry
 @Component
 struct LoginPage {
   @State account:string = ''
   @State password:string =''
   @State Islogin:boolean = false
-  @State message:LoginViewModel = new LoginViewModel(this.account,this.password)
+  @State message:LoginModel = new LoginModel(this.account,this.password)
 
   build() {
     Column() {
@@ -76,17 +78,13 @@ struct LoginPage {
             this.Islogin = res
             console.log('Islogin:',this.Islogin)
             if(this.Islogin == true){
-              promptAction.showDialog({
-                title: '登录成功',
-                message: '',
-                buttons: [
-                  {
-                    text: '进入首页',
-                    color: '#000000',
-                  }
-                ],
-              }).then(data=>
-              skip())
+              router.replaceUrl({
+                url: 'pages/HomePage',
+                params: {
+                  data1: '首页登录成功',
+                  account :this.account
+                }
+              })
             }
             else{
               promptAction.showDialog({

@@ -1,5 +1,5 @@
 import http from '@ohos.net.http';
-export class RegisterViewModel{
+export class RegisterModel{
   account:string
   password:string
   msg:string

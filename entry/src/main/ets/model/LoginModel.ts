@@ -1,5 +1,5 @@
 import http from '@ohos.net.http';
-export class LoginViewModel{
+export class LoginModel{
   account:string
   password:string
   constructor(account:string,password:string) {

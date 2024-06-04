@@ -1,9 +1,9 @@
-import wordModel from '../model/HistoryModel'
+import wordModel from '../view/HistoryViewModel'
 import ArrayList from '@ohos.util.ArrayList';
-import { HistoryViewModel } from '../view/HistoryViewModel'
+import { HistoryModel } from '../model/HistoryModel'
 
-export async function getItem(){
-  let items: HistoryViewModel[] = await wordModel.getWord()
+export async function getItem(account:string){
+  let items: HistoryModel[] = await wordModel.getWord(account)
   //console.log('test',JSON.stringify(items[0].content))
   return items
 }
