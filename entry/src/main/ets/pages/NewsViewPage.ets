@@ -24,23 +24,29 @@ struct NewsViewPage {
   account:string
   // @State Isread:Boolean = false
   @State @Watch('audioStateUpdate') isRead:boolean = true
+  @State isPlaying:boolean = false
   @State audioPlayer:AudioPlayer = new AudioPlayer()
   @State connectState:number = ConnectState.IsConnecting
-
+  itemIndex:number
   audioStateUpdate(){
-    if(this.isRead==false){
+    if(this.isPlaying==false){
       // this.audioPlayer.avPlayerUrlDemo(API.audio + this.news_id + '.mp3')
       this.audioPlayer.avPlayerUrlDemo(API.audio + this.news_id)
+      this.isPlaying = true
     }
     else{
-      if(this.isRead==true){this.audioPlayer.quit()}
+      if(this.isPlaying==true){
+        this.audioPlayer.quit()
+        this.isPlaying = false
+      }
     }
   }
 
   async aboutToAppear(){
+    this.itemIndex = router.getParams()['itemIndex']
+    console.log('newsitemindex',this.itemIndex.toString())
     this.news_id = router.getParams()['news_id']
     this.account = router.getParams()['account']
-    //let {title,author,time,contentItem} = await newsModel.getNews()
     this.newsInfo = await newsModel.getNews(API.get_news_one + this.news_id)
     let flag = await new CommonHTTP().http(API.audio + this.news_id)
     if(flag === true){
@@ -68,11 +74,11 @@ struct NewsViewPage {
         Blank()
       }
       .onClick(()=>{
-        this.audioPlayer.quit()
         router.replaceUrl({
           url: 'pages/HomePage',
           params: {
             // data1: '首页登录成功',
+            itemIndex:this.itemIndex,
             account: this.account
           }
         })
@@ -117,11 +123,9 @@ struct NewsViewPage {
             .alignItems(HorizontalAlign.Center)
             .margin(20)
           }
-        }.onTouch((even:TouchEvent)=>{
-          if(even.type == TouchType.Down){
-            this.isRead = !this.isRead
-          }
-        })
+        }.gesture(TapGesture({count:1}).onAction(event=>{
+          this.isRead=!this.isRead
+        }))
       }
       else{
         this.ConnectError()
@@ -131,19 +135,25 @@ struct NewsViewPage {
         SwipeGesture({direction:SwipeDirection.Horizontal,fingers:1})
           .onAction((event:GestureEvent)=>{
             console.log(event.offsetX.toString())
-            if(event.offsetX > 0){
               router.replaceUrl({
                 url: 'pages/HomePage',
                 params: {
                   // data1: '首页登录成功',
-                  account: this.account
+                  account: this.account,
+                  // itemIndex: this.itemIndex
                 }
               })
-            }
+
           })
       )
   }
-
+  async aboutToDisappear(){
+    if(this.isPlaying==true){
+      this.audioPlayer.quit()
+      this.isPlaying = false
+      console.log('1111111')
+    }
+  }
   @Builder pic(newsPic:NewsPic){
     Column({space:5}){
       Image(newsPic.image)

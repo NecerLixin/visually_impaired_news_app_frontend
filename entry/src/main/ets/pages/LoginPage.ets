@@ -81,7 +81,8 @@ struct LoginPage {
                 url: 'pages/HomePage',
                 params: {
                   data1: '首页登录成功',
-                  account :this.account
+                  account :this.account,
+                  itemIndex:-1
                 }
               })
             }
