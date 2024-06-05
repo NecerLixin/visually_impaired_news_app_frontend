@@ -65,7 +65,7 @@ export class CommonHTTP{
 
 
 class httpRequestGet{
-  url:string = 'http://172.16.24.81:5001/news/getnews'
+  url:string = 'http://172.16.24.81:5001/news/getnews?page=1'
   getWord():Promise<ResponseResult[]>{
   //1. 创建http对象
     let  httpRequest = http.createHttp()
