@@ -29,7 +29,6 @@ import { CommonConstant as Const, ContentType } from '../../../../../../../visua
  * @param params Params for initiating an HTTP request.
  */
 
-
 class httpRequestGet{
   url:string = 'http://172.16.24.81:5001/news/getnews'
   getWord():Promise<ResponseResult[]>{

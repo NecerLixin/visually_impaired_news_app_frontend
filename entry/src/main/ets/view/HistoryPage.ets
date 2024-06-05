@@ -4,7 +4,7 @@ import { HistoryModel } from '../model/HistoryModel'
 import {getItem}  from '../common/history_com'
 import router from '@ohos.router';
 //生成每一条历史记录的卡片
-@Builder function HistoryCard(item:HistoryModel, account:string){
+@Builder function HistoryCard(item:HistoryModel,Bcground:Color){
   Row({space:10}){
     Column(){
       Row(){
@@ -31,17 +31,9 @@ import router from '@ohos.router';
       }.height('45%')
 
     }
+    .backgroundColor(Bcground)
     .alignItems(HorizontalAlign.Start)
   }
-  .onClick(()=>{
-    router.replaceUrl({
-      url: 'pages/NewsViewPage',
-      params: {
-        news_id :item.news_id,
-        account :account
-      }
-    })
-  })
   .width('100%')
   .height('20%')
   .padding({left:14,right:14})
@@ -52,6 +44,8 @@ import router from '@ohos.router';
 export struct History {
   //初始化items
 @State items:HistoryModel[] = []
+  @State currentIndex:number = 0
+  private scroller = new Scroller()
   account = ''
   //使用异步方法获取items
   async aboutToAppear(){
@@ -63,16 +57,36 @@ export struct History {
   build() {
       Column() {
         //使用List展示卡片
-        List({space:10}){
-            ForEach(this.items,(item:HistoryModel)=>{
+        List({space:10,initialIndex:this.currentIndex , scroller:this.scroller}){
+            ForEach(this.items,(item:HistoryModel,index:number)=>{
               ListItem(){
-                  HistoryCard(item,this.account)
+                if(index == this.currentIndex){
+                  HistoryCard(item,Color.Orange)
+                }
+                else{
+                  HistoryCard(item,Color.White)
+                }
               }
             })
         }
         .padding({left:10,right:10})
         .layoutWeight(1)
       }
+      .gesture(TapGesture({count:2}).onAction(event=>{
+        router.replaceUrl({
+          url: 'pages/NewsViewPage',
+          params: {
+            news_id :this.items[this.currentIndex].news_id,
+            account :this.account
+          }
+        })
+      }))
+      .gesture(TapGesture({count:1}).onAction(event=>{
+        this.currentIndex++
+        this.currentIndex = this.currentIndex % this.items.length
+        //console.log("currentItemIndex",this.currentIndex.toString())
+        this.scroller.scrollToIndex(this.currentIndex)
+      }))
       .width('100%')
     .height('100%')
     .backgroundColor('#eee')

@@ -101,6 +101,7 @@ struct NewsViewPage {
 
       }
     }.justifyContent(FlexAlign.Center)
+
   }
   @Builder pic(newsPic:NewsPic){
     Column({space:5}){

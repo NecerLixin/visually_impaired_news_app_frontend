@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\Dell\\.ohos\\config\\auto_debug_visually_impaired_news_app_frontend_com.example.visuallyimpairednewsapp_2850086000495111210.cer",
+          "storePassword": "0000001A8DF2F4A976905E77177C067278A4B0E100790D593210E4B3BFA5642690653BC9AD137E790732",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001AA30A1E44241D6B3B7155FC2A0E5496661B81991E0B76CCB184A4049F0368600D87F74461F552",
+          "profile": "C:\\Users\\Dell\\.ohos\\config\\auto_debug_visually_impaired_news_app_frontend_com.example.visuallyimpairednewsapp_2850086000495111210.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\Dell\\.ohos\\config\\auto_debug_visually_impaired_news_app_frontend_com.example.visuallyimpairednewsapp_2850086000495111210.p12"
+        }
+      }
+    ],
     "compileSdkVersion": 9,
     "compatibleSdkVersion": 9,
     "products": [
