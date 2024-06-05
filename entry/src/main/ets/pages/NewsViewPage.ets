@@ -63,11 +63,9 @@ struct NewsViewPage {
         .height(30)
         .backgroundColor(Color.White)
         .type(ButtonType.Normal)
-
         Text('新闻页面')
           .fontSize(28)
         Blank()
-
       }
       .onClick(()=>{
         this.audioPlayer.quit()
