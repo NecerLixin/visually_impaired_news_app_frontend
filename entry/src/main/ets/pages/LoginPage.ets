@@ -19,7 +19,6 @@ struct LoginPage {
   @State password:string =''
   @State Islogin:boolean = false
   @State message:LoginModel = new LoginModel(this.account,this.password)
-
   build() {
     Column() {
       Image($r('app.media.icon'))
@@ -82,7 +81,8 @@ struct LoginPage {
                 url: 'pages/HomePage',
                 params: {
                   data1: '首页登录成功',
-                  account :this.account
+                  account :this.account,
+                  itemIndex:-1
                 }
               })
             }

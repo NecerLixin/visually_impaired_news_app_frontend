@@ -7,6 +7,9 @@ export class AudioPlayer {
   quit(){
     this.avPlayer.stop()
   }
+  release(){
+    this.avPlayer.release()
+  }
   // 注册avplayer回调函数
   setAVPlayerCallback() {
     // error回调监听函数,当avPlayer在操作过程中出现错误时调用reset接口触发重置流程
@@ -71,7 +74,8 @@ export class AudioPlayer {
     // let url = 'http://172.16.24.81:5001/audio/tts.mp3';
     // 通过UIAbilityContext获取沙箱地址filesDir，以下为Stage模型获方式，如需在FA模型上获取请参考《访问应用沙箱》获取地址
     let context = getContext(this) as common.UIAbilityContext;
-    console.log("Start avPlayer")
+    console.log("Start avPlayer"+url)
+
     this.avPlayer.url = url;
   }
 }

@@ -7,26 +7,58 @@ import { History } from '../view/HistoryPage'
 import router from '@ohos.router';
 import { Connect } from '../common/HomeConnect'
 import {ConnectState} from '../common/utils/State'
+import {AudioPlayer} from '../common/utils/AudioPlay'
+import {API} from '../common/utils/API'
 @Component
 export default struct TabBar {
-
   @State tabBarArray:NewsTypeBean[] = NewsViewModel.getDefaultTypeList()
   @State currentIndex: number = 0;
   @State currentPage: number = 1;
   @State newsModel: NewsModel = new NewsModel()
   @State items:ResponseResult[] = []
   @State connectState:number = ConnectState.IsConnecting
-  @State currentItemIndex: number = 0;
+  @State currentItemIndex: number = -1;
   @State bcColor:Color = Color.Orange
   private scroll = new Scroller()
-  account:string
+  private  ap = new AudioPlayer()
+
+  @State account:string = ""
+  itemIndex:number
+
+  //音频播放部分
+  @State isRead:boolean = false
+
+
+  delay(){
+    return new Promise((resolve,reject)=>{
+      setTimeout(resolve,1000)
+    })
+  }
+
+  //标题阅读函数
+  async titleAudio(news_id:string){
+    console.log('change item'+news_id)
+    this.ap.quit()
+    await this.delay().then(()=>{
+      console.log('22222')
+    })
+    this.ap.avPlayerUrlDemo(API.audio_title + news_id)
+    //ap.quit()
+  }
+
+
   async aboutToAppear() {
+    this.itemIndex = router.getParams()['itemIndex']
+    console.log("itemIndex",this.itemIndex.toString())
+    this.currentItemIndex = this.itemIndex
     this.connectState = ConnectState.IsConnecting
     this.items = await HttpRequestGet.getWord()
     console.log(JSON.stringify(this.items[0]))
     console.log(this.items[0].brief)
     //console.log('首页',router.getParams()['data1'])
     this.account = router.getParams()['account']
+    this.ap.avPlayerUrlDemo(API.audio_home)
+    this.isRead = true
     if(this.items.length > 0){
       this.connectState = ConnectState.IsConnected
     }
@@ -42,7 +74,7 @@ export default struct TabBar {
           this.Loading()
         }
         else{
-          List({initialIndex: this.currentItemIndex , scroller: this.scroll}) {
+          List({initialIndex: 0 , scroller: this.scroll}) {
             ForEach(this.items, (newsData: ResponseResult,index:number) => {
               ListItem() {
                 if(index == this.currentItemIndex){
@@ -81,21 +113,27 @@ export default struct TabBar {
         }
       }.tabBar(this.TabBuilder(0))
       .gesture(TapGesture({count:2}).onAction(event=>{
-        Connect(this.account,this.items[this.currentItemIndex].news_id).then(res=>{
-          router.replaceUrl({
-            url: 'pages/NewsViewPage',
-            params: {
-              news_id :this.items[this.currentItemIndex].news_id,
-              account :this.account
-            }
+        if(this.currentItemIndex >= 0) {
+          console.log('addhistory',this.currentItemIndex.toString())
+          Connect(this.account, this.items[this.currentItemIndex].news_id).then(res => {
+            router.replaceUrl({
+              url: 'pages/NewsViewPage',
+              params: {
+                news_id: this.items[this.currentItemIndex].news_id,
+                account: this.account,
+                itemIndex: this.currentItemIndex
+              }
+            })
+
           })
-        })
+        }
       }))
       .gesture(TapGesture({count:1}).onAction(event=>{
         this.currentItemIndex++
         this.currentItemIndex = this.currentItemIndex % this.items.length
         console.log("currentItemIndex",this.currentItemIndex.toString())
         this.scroll.scrollToIndex(this.currentItemIndex)
+        this.titleAudio(this.items[this.currentItemIndex].news_id)
       }))
       TabContent(){
         History()
