@@ -42,7 +42,7 @@ struct NewsViewPage {
     this.account = router.getParams()['account']
     //let {title,author,time,contentItem} = await newsModel.getNews()
     this.newsInfo = await newsModel.getNews(API.get_news_one + this.news_id)
-    let flag = await new CommonHTTP().http(API.tts + this.news_id)
+    let flag = await new CommonHTTP().http(API.audio + this.news_id)
     if(flag === true){
       this.connectState = ConnectState.IsConnected
     }
@@ -63,11 +63,9 @@ struct NewsViewPage {
         .height(30)
         .backgroundColor(Color.White)
         .type(ButtonType.Normal)
-
         Text('新闻页面')
           .fontSize(28)
         Blank()
-
       }
       .onClick(()=>{
         this.audioPlayer.quit()
