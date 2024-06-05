@@ -42,7 +42,7 @@ struct NewsViewPage {
     this.account = router.getParams()['account']
     //let {title,author,time,contentItem} = await newsModel.getNews()
     this.newsInfo = await newsModel.getNews(API.get_news_one + this.news_id)
-    let flag = await new CommonHTTP().http(API.tts + this.news_id)
+    let flag = await new CommonHTTP().http(API.audio + this.news_id)
     if(flag === true){
       this.connectState = ConnectState.IsConnected
     }
