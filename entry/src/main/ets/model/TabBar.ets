@@ -27,8 +27,6 @@ export default struct TabBar {
 
   //音频播放部分
   @State isRead:boolean = false
-
-
   delay(){
     return new Promise((resolve,reject)=>{
       setTimeout(resolve,1000)
@@ -55,7 +53,6 @@ export default struct TabBar {
     this.items = await HttpRequestGet.getWord()
     console.log(JSON.stringify(this.items[0]))
     console.log(this.items[0].brief)
-    //console.log('首页',router.getParams()['data1'])
     this.account = router.getParams()['account']
     this.ap.avPlayerUrlDemo(API.audio_home)
     this.isRead = true
@@ -65,8 +62,8 @@ export default struct TabBar {
     else{
       this.connectState = ConnectState.IsConnectingError
     }
-    //this.changeCategory()
   }
+
   build() {
     Tabs(){
       TabContent(){
@@ -91,6 +88,32 @@ export default struct TabBar {
               .borderRadius(Const.NewsListConstant_ITEM_BORDER_RADIUS)
             })
           }
+          .gesture(TapGesture({count:2}).onAction(event=>{
+            if(this.currentItemIndex >= 0) {
+              console.log('addhistory',this.currentItemIndex.toString())
+              Connect(this.account, this.items[this.currentItemIndex].news_id).then(res => {
+                if(this.isRead==true){
+                  this.ap.quit()
+                  this.isRead = false
+                  console.log('1111111')
+                }
+                router.replaceUrl({
+                  url: 'pages/NewsViewPage',
+                  params: {
+                    news_id: this.items[this.currentItemIndex].news_id,
+                    account: this.account,
+                    itemIndex: this.currentItemIndex
+                  }
+                })
+              })
+            }
+          }))
+          .gesture(TapGesture({count:1}).onAction(event=>{
+            this.currentItemIndex++
+            this.currentItemIndex = this.currentItemIndex % this.items.length
+            this.scroll.scrollToIndex(this.currentItemIndex)
+            this.titleAudio(this.items[this.currentItemIndex].news_id)
+          }))
           .padding({left:10,right:10})
           .layoutWeight(1)
           .width('93.3%')
@@ -112,45 +135,30 @@ export default struct TabBar {
           })
         }
       }.tabBar(this.TabBuilder(0))
-      .gesture(TapGesture({count:2}).onAction(event=>{
-        if(this.currentItemIndex >= 0) {
-          console.log('addhistory',this.currentItemIndex.toString())
-          Connect(this.account, this.items[this.currentItemIndex].news_id).then(res => {
-            router.replaceUrl({
-              url: 'pages/NewsViewPage',
-              params: {
-                news_id: this.items[this.currentItemIndex].news_id,
-                account: this.account,
-                itemIndex: this.currentItemIndex
-              }
-            })
 
-          })
-        }
-      }))
-      .gesture(TapGesture({count:1}).onAction(event=>{
-        this.currentItemIndex++
-        this.currentItemIndex = this.currentItemIndex % this.items.length
-        console.log("currentItemIndex",this.currentItemIndex.toString())
-        this.scroll.scrollToIndex(this.currentItemIndex)
-        this.titleAudio(this.items[this.currentItemIndex].news_id)
-      }))
       TabContent(){
         History()
       }.tabBar(this.TabBuilder(1))
+
     }
     .barHeight(Const.TabBars_BAR_HEIGHT)
     .barMode(BarMode.Scrollable)
     .barWidth(Const.TabBars_BAR_WIDTH)
     .onChange((index: number) => {
+      if(this.currentIndex!=index){
+      if(index==1){
+        this.delay()
+        this.ap.avPlayerUrlDemo(API.audio_history)
+      }
+      else if(index==0){
+        this.delay()
+        this.ap.avPlayerUrlDemo(API.audio_home)
+      }}
       this.currentIndex = index;
       this.currentPage = 1;
     })
     .vertical(false)
   }
-
-
-
   @Builder Loading(){
     Column(){
         Image($r('app.media.ic_pull_up_load'))

@@ -3,6 +3,8 @@ import ArrayList from '@ohos.util.ArrayList';
 import { HistoryModel } from '../model/HistoryModel'
 import {getItem}  from '../common/history_com'
 import router from '@ohos.router';
+import { AudioPlayer } from '../common/utils/AudioPlay';
+import {API} from '../common/utils/API'
 //生成每一条历史记录的卡片
 @Builder function HistoryCard(item:HistoryModel,Bcground:Color){
   Row({space:10}){
@@ -44,23 +46,45 @@ import router from '@ohos.router';
 export struct History {
   //初始化items
   @State items:HistoryModel[] = []
-  @State currentIndex:number = 0
+  @State currentItemIndex:number = 0
   private scroller = new Scroller()
+  private ap =new AudioPlayer()
   account = ''
+  //音频播放部分
+  @State isRead:boolean = false
+
+
+  delay(){
+    return new Promise((resolve,reject)=>{
+      setTimeout(resolve,1000)
+    })
+  }
+
+  //标题阅读函数
+  async historyTitleAudio(news_id:string){
+    console.log('change item'+news_id)
+    this.ap.quit()
+    await this.delay().then(()=>{
+      console.log('22222')
+    })
+    this.ap.avPlayerUrlDemo(API.audio_title + news_id)
+  }
   //使用异步方法获取items
   async aboutToAppear(){
     this.account = router.getParams()['account']
+    this.currentItemIndex = router.getParams()['itemIndex']
     this.items = await getItem(this.account)
     console.log('成功触发')
+    this.isRead = true
   }
 
   build() {
     Column() {
       //使用List展示卡片
-      List({space:10,initialIndex:this.currentIndex , scroller:this.scroller}){
+      List({space:10,initialIndex:this.currentItemIndex , scroller:this.scroller}){
         ForEach(this.items,(item:HistoryModel,index:number)=>{
           ListItem(){
-            if(index == this.currentIndex){
+            if(index == this.currentItemIndex){
               HistoryCard(item,Color.Orange)
             }
             else{
@@ -76,16 +100,17 @@ export struct History {
       router.replaceUrl({
         url: 'pages/NewsViewPage',
         params: {
-          news_id :this.items[this.currentIndex].news_id,
+          news_id :this.items[this.currentItemIndex].news_id,
           account :this.account
         }
       })
     }))
     .gesture(TapGesture({count:1}).onAction(event=>{
-      this.currentIndex++
-      this.currentIndex = this.currentIndex % this.items.length
-      //console.log("currentItemIndex",this.currentIndex.toString())
-      this.scroller.scrollToIndex(this.currentIndex)
+      this.currentItemIndex++
+      this.currentItemIndex = this.currentItemIndex % this.items.length
+      this.scroller.scrollToIndex(this.currentItemIndex)
+      console.log('12345678')
+      this.historyTitleAudio(this.items[this.currentItemIndex].news_id)
     }))
     .width('100%')
     .height('100%')

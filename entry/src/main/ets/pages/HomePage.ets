@@ -5,6 +5,7 @@ import router from '@ohos.router';
 @Component
 struct HomePage {
   private  itemIndex:number = -1
+
   // aboutToAppear(){
   //   this.itemIndex = router.getParams()['itemIndex']
   // }
