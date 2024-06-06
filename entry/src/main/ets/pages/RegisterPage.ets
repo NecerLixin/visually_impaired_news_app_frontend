@@ -141,8 +141,6 @@ struct login {
                 ],
               })
             }
-            //console.log(this.password1)
-            //console.log(this.password2)
           }
 
 

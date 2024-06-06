@@ -143,42 +143,46 @@ export default struct TabBar {
         this.titleAudio(this.items[this.currentItemIndex].news_id)
       }))
       TabContent(){
-            //使用List展示卡片
-            List({space:10,initialIndex:this.historyCurrentItemIndex , scroller:this.scroll}){
-              ForEach(this.historyItems,(item:HistoryModel, index:number)=>{
-                ListItem(){
-                  if(index == this.historyCurrentItemIndex){
-                    HistoryCard(item,Color.Orange)
-                  }
-                  else{
-                    HistoryCard(item,Color.White)
-                  }
-                }
-              })
+        //使用List展示卡片
+        List({space:10,initialIndex:this.historyCurrentItemIndex , scroller:this.scroll}){
+          ForEach(this.historyItems,(item:HistoryModel, index:number)=>{
+            ListItem(){
+              if(index == this.historyCurrentItemIndex){
+                HistoryCard(item,Color.Orange)
+              }
+              else{
+                HistoryCard(item,Color.White)
+              }
             }
-            .padding({left:10,right:10})
-            .layoutWeight(1)
-            .width('100%')
-            .height('100%')
-            .backgroundColor('#eee')
-          }.tabBar(this.TabBuilder(1))
+          })
+        }
+        .padding({left:10,right:10})
+        .layoutWeight(1)
+        .width('100%')
+        .height('100%')
+        .backgroundColor('#eee')
+      }.tabBar(this.TabBuilder(1))
       .gesture(TapGesture({count:2}).onAction(event=>{
+        if(this.isRead==true){
+          this.ap.quit()
+          this.isRead = false
+          console.log('1111111')
+        }
         router.replaceUrl({
-                      url: 'pages/NewsViewPage',
-                      params: {
-                        news_id :this.historyItems[this.historyCurrentItemIndex].news_id,
-                        account :this.account,
-                        itemIndex:this.historyCurrentItemIndex
-                      }
-                    })
-}))
+          url: 'pages/NewsViewPage',
+          params: {
+            news_id :this.historyItems[this.historyCurrentItemIndex].news_id,
+            account :this.account,
+            itemIndex:this.historyCurrentItemIndex
+          }
+        })}))
       .gesture(TapGesture({count:1}).onAction(event=>{
         this.historyCurrentItemIndex++
         this.historyCurrentItemIndex = this.historyCurrentItemIndex % this.historyItems.length
         this.scroll.scrollToIndex(this.historyCurrentItemIndex)
         console.log('12345678')
         this.titleAudio(this.historyItems[this.historyCurrentItemIndex].news_id)
-}))
+      }))
     }
     .barHeight(Const.TabBars_BAR_HEIGHT)
     .barMode(BarMode.Scrollable)
@@ -200,18 +204,17 @@ export default struct TabBar {
   }
   @Builder Loading(){
     Column(){
-        Image($r('app.media.ic_pull_up_load'))
-          // .autoResize(true)
-          // .sourceSize({width:10,height:10})
-          // .width(10)
-          .width(25).height(25)
+      Image($r('app.media.ic_pull_up_load'))
+        // .autoResize(true)
+        // .sourceSize({width:10,height:10})
+        // .width(10)
+        .width(25).height(25)
     }
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Center)
     .width('93.3%')
     .height('100%')
   }
-
 
   @Builder BuilderRow(bcGround:Color,newsData:ResponseResult){
     Row({space:10}){
