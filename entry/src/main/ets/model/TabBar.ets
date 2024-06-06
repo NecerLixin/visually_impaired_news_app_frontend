@@ -9,6 +9,8 @@ import { Connect } from '../common/HomeConnect'
 import {ConnectState} from '../common/utils/State'
 import {AudioPlayer} from '../common/utils/AudioPlay'
 import {API} from '../common/utils/API'
+import { HistoryModel } from '../model/HistoryModel'
+import {getItem}  from '../common/history_com'
 @Component
 export default struct TabBar {
   @State tabBarArray:NewsTypeBean[] = NewsViewModel.getDefaultTypeList()
@@ -24,11 +26,11 @@ export default struct TabBar {
 
   @State account:string = ""
   itemIndex:number
-
+  //历史记录部分
+  @State historyItems:HistoryModel[] = []
+  @State historyCurrentItemIndex:number = 0
   //音频播放部分
   @State isRead:boolean = false
-
-
   delay(){
     return new Promise((resolve,reject)=>{
       setTimeout(resolve,1000)
@@ -55,7 +57,6 @@ export default struct TabBar {
     this.items = await HttpRequestGet.getWord()
     console.log(JSON.stringify(this.items[0]))
     console.log(this.items[0].brief)
-    //console.log('首页',router.getParams()['data1'])
     this.account = router.getParams()['account']
     this.ap.avPlayerUrlDemo(API.audio_home)
     this.isRead = true
@@ -65,8 +66,10 @@ export default struct TabBar {
     else{
       this.connectState = ConnectState.IsConnectingError
     }
-    //this.changeCategory()
+    this.historyCurrentItemIndex = router.getParams()['itemIndex']
+    this.historyItems = await getItem(this.account)
   }
+
   build() {
     Tabs(){
       TabContent(){
@@ -91,6 +94,7 @@ export default struct TabBar {
               .borderRadius(Const.NewsListConstant_ITEM_BORDER_RADIUS)
             })
           }
+
           .padding({left:10,right:10})
           .layoutWeight(1)
           .width('93.3%')
@@ -116,6 +120,11 @@ export default struct TabBar {
         if(this.currentItemIndex >= 0) {
           console.log('addhistory',this.currentItemIndex.toString())
           Connect(this.account, this.items[this.currentItemIndex].news_id).then(res => {
+            if(this.isRead==true){
+              this.ap.quit()
+              this.isRead = false
+              console.log('1111111')
+            }
             router.replaceUrl({
               url: 'pages/NewsViewPage',
               params: {
@@ -124,33 +133,71 @@ export default struct TabBar {
                 itemIndex: this.currentItemIndex
               }
             })
-
           })
         }
       }))
       .gesture(TapGesture({count:1}).onAction(event=>{
         this.currentItemIndex++
         this.currentItemIndex = this.currentItemIndex % this.items.length
-        console.log("currentItemIndex",this.currentItemIndex.toString())
         this.scroll.scrollToIndex(this.currentItemIndex)
         this.titleAudio(this.items[this.currentItemIndex].news_id)
       }))
       TabContent(){
-        History()
-      }.tabBar(this.TabBuilder(1))
+            //使用List展示卡片
+            List({space:10,initialIndex:this.historyCurrentItemIndex , scroller:this.scroll}){
+              ForEach(this.historyItems,(item:HistoryModel, index:number)=>{
+                ListItem(){
+                  if(index == this.historyCurrentItemIndex){
+                    HistoryCard(item,Color.Orange)
+                  }
+                  else{
+                    HistoryCard(item,Color.White)
+                  }
+                }
+              })
+            }
+            .padding({left:10,right:10})
+            .layoutWeight(1)
+            .width('100%')
+            .height('100%')
+            .backgroundColor('#eee')
+          }.tabBar(this.TabBuilder(1))
+      .gesture(TapGesture({count:2}).onAction(event=>{
+        router.replaceUrl({
+                      url: 'pages/NewsViewPage',
+                      params: {
+                        news_id :this.historyItems[this.historyCurrentItemIndex].news_id,
+                        account :this.account,
+                        itemIndex:this.historyCurrentItemIndex
+                      }
+                    })
+}))
+      .gesture(TapGesture({count:1}).onAction(event=>{
+        this.historyCurrentItemIndex++
+        this.historyCurrentItemIndex = this.historyCurrentItemIndex % this.historyItems.length
+        this.scroll.scrollToIndex(this.historyCurrentItemIndex)
+        console.log('12345678')
+        this.titleAudio(this.historyItems[this.historyCurrentItemIndex].news_id)
+}))
     }
     .barHeight(Const.TabBars_BAR_HEIGHT)
     .barMode(BarMode.Scrollable)
     .barWidth(Const.TabBars_BAR_WIDTH)
     .onChange((index: number) => {
+      if(this.currentIndex!=index){
+      if(index==1){
+        this.delay()
+        this.ap.avPlayerUrlDemo(API.audio_history)
+      }
+      else if(index==0){
+        this.delay()
+        this.ap.avPlayerUrlDemo(API.audio_home)
+      }}
       this.currentIndex = index;
       this.currentPage = 1;
     })
     .vertical(false)
   }
-
-
-
   @Builder Loading(){
     Column(){
         Image($r('app.media.ic_pull_up_load'))
@@ -215,4 +262,40 @@ export default struct TabBar {
         .fontColor('#182431')
     }
   }
+}
+@Builder function HistoryCard(item:HistoryModel,Bcground:Color){
+  Row({space:10}){
+    Column(){
+      Row(){
+        Text(item.title)
+          .fontSize(20)
+          .fontColor(Color.Black)
+          .fontWeight(FontWeight.Bold)
+      }.margin(5)
+      Row(){
+        Image(item.img_url)
+          .width(100)
+        Column(){
+          Text(item.news_brief.substring(0,60))
+            .fontSize(10)
+            .fontColor('#888')
+            .width("80%")
+            .textAlign(TextAlign.Start)
+          Text(item.history_time)
+            .fontSize(10)
+            .fontColor('#888')
+        }.justifyContent(FlexAlign.Start)
+        .width('70%')
+        .height("100%")
+      }.height('45%')
+
+    }
+    .backgroundColor(Bcground)
+    .alignItems(HorizontalAlign.Start)
+  }
+  .width('100%')
+  .height('20%')
+  .padding({left:14,right:14})
+  .backgroundColor('#fff')
+  .borderRadius(8)
 }
