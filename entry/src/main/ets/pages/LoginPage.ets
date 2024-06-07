@@ -56,16 +56,16 @@ struct LoginPage {
           this.message.Setpassword(this.password)
 
         })
-      Row() {
-        Blank()
-        Text("忘记密码？")
-          .fontSize(18)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.Blue)
-      }.width("100%")
-      .margin({
-        top:"10vp"
-      })
+      // Row() {
+      //   Blank()
+      //   Text("忘记密码？")
+      //     .fontSize(18)
+      //     .fontWeight(FontWeight.Bold)
+      //     .fontColor(Color.Blue)
+      // }.width("100%")
+      // .margin({
+      //   top:"10vp"
+      // })
       Button("登录")
         .width("90%")
         .height(50)

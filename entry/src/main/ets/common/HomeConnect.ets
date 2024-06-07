@@ -3,7 +3,7 @@ export function Connect(account:string,news_id:string):Promise<boolean>{
   let httpRequest = http.createHttp();
   return new Promise((resolve,reject)=>{
     httpRequest.request(
-      'http://172.16.24.81:5001/users/addhistory',
+      'http://192.168.1.2:5001/users/addhistory',
       {
         method: http.RequestMethod.POST,
         extraData:{
