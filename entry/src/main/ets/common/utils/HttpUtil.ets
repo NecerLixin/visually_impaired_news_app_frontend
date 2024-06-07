@@ -65,7 +65,7 @@ export class CommonHTTP{
 
 
 class httpRequestGet{
-  url:string = 'http://172.16.24.81:5001/news/getnews?page=1'
+  url:string = 'http://192.168.1.2:5001/news/getnews'
   getWord():Promise<ResponseResult[]>{
   //1. 创建http对象
     let  httpRequest = http.createHttp()
@@ -83,9 +83,10 @@ class httpRequestGet{
           // console.log(response.result.toString())
           if(response.responseCode == 200){
             //resolve(JSON.parse(response.result.toString()))
+
+            console.log('请求成功', JSON.stringify(response.result.toString()))
             resolve(JSON.parse(response.result.toString()))
 
-            console.log('请求成功', JSON.stringify(response))
           }
           else{
             console.log('请求失败', JSON.stringify(response))

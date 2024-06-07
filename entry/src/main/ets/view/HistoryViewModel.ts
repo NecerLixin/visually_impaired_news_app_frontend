@@ -8,7 +8,7 @@ class HistoryViewModel{//创建连接
   getWord(account:string):Promise<HistoryModel[]>{
     //1. 创建http对象
     let  httpRequest = http.createHttp()
-    this.wordUrl = 'http://172.16.24.81:5001/users/gethistory?account='+account
+    this.wordUrl = 'http://192.168.1.2:5001/users/gethistory?account='+account
     return new Promise((resolve,reject)=>{
       httpRequest.request(this.wordUrl,{
         method:http.RequestMethod.GET,
