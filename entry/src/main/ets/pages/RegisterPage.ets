@@ -84,7 +84,7 @@ struct login {
             top:"50 vp"
           })
           .onClick(()=>{
-            if(this.password1 == this.password2 && this.password1 != ''){
+            if(this.password1 == this.password2 && this.password1 != ''&&this.account!=''){
               this.message.Setaccount(this.account)
               this.message.Setpassword(this.password1)
               this.message.Connet().then((res)=>{
@@ -141,8 +141,6 @@ struct login {
                 ],
               })
             }
-            //console.log(this.password1)
-            //console.log(this.password2)
           }
 
 

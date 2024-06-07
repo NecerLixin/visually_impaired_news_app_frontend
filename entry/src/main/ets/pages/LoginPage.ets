@@ -19,7 +19,6 @@ struct LoginPage {
   @State password:string =''
   @State Islogin:boolean = false
   @State message:LoginModel = new LoginModel(this.account,this.password)
-
   build() {
     Column() {
       Image($r('app.media.icon'))
@@ -57,16 +56,16 @@ struct LoginPage {
           this.message.Setpassword(this.password)
 
         })
-      Row() {
-        Blank()
-        Text("忘记密码？")
-          .fontSize(18)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.Blue)
-      }.width("100%")
-      .margin({
-        top:"10vp"
-      })
+      // Row() {
+      //   Blank()
+      //   Text("忘记密码？")
+      //     .fontSize(18)
+      //     .fontWeight(FontWeight.Bold)
+      //     .fontColor(Color.Blue)
+      // }.width("100%")
+      // .margin({
+      //   top:"10vp"
+      // })
       Button("登录")
         .width("90%")
         .height(50)
@@ -82,7 +81,8 @@ struct LoginPage {
                 url: 'pages/HomePage',
                 params: {
                   data1: '首页登录成功',
-                  account :this.account
+                  account :this.account,
+                  itemIndex:-1
                 }
               })
             }
